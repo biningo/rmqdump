@@ -1,6 +1,6 @@
 import os.path
 import sys
-from typing import TextIO
+from typing import BinaryIO
 
 import utils
 
@@ -12,7 +12,7 @@ SLOT_COUNT = 500 * 10000
 sys.setrecursionlimit(10000)
 
 
-def parse_index_file(fp: TextIO):
+def parse_index_file(fp: BinaryIO):
     header = fp.read(HEAD_BYTE_SIZE)
     first_msg_time = utils.byte_to_int(header[0:8])
     last_msg_time = utils.byte_to_int(header[8:16])
@@ -42,7 +42,7 @@ def parse_index_file(fp: TextIO):
         parse_index_item(fp, index_pos)
 
 
-def parse_index_item(fp: TextIO, index_pos):
+def parse_index_item(fp: BinaryIO, index_pos):
     # 第0号位置全0 这里不用-1
     fp.seek(HEAD_BYTE_SIZE + SLOT_BYTE_SIZE * SLOT_COUNT + index_pos * INDEX_ITEM_SIZE)
     index_item = fp.read(INDEX_ITEM_SIZE)
